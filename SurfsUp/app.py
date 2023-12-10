@@ -44,7 +44,7 @@ def welcome():
 
 
 @app.route("/api/v1.0/precipitation")
-def names():
+def precipitation():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
@@ -54,21 +54,27 @@ def names():
 
     session.close()
 
-    results_dict = {results_df['date'][i]:results_df['precipitation'][i] for i in range(len(results_df['date']))}
+    results_dict = {results_df['date'][i]:results_df['prcp'][i] for i in range(len(results_df['date']))}
 
     return jsonify(results_dict)
 
 
 @app.route("/api/v1.0/stations")
-def passengers():
+def stations():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    return jsonify()
+    station_result = session.query(station.station).all()
+
+    session.close()
+
+    station_list = [station[0] for station in station_result]
+
+    return jsonify(station_list)
 
 
 @app.route("/api/v1.0/tobs")
-def passengers():
+def tobs():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
@@ -76,7 +82,7 @@ def passengers():
 
 
 @app.route("/api/v1.0/<start>")
-def passengers():
+def temps_w_start():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
@@ -84,7 +90,7 @@ def passengers():
 
 
 @app.route("/api/v1.0/<start>/<end>")
-def passengers():
+def temps_w_start_end():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
